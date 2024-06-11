@@ -7,12 +7,7 @@ const ImageRender: FC<{ item: Data }> = ({ item }) => {
   const { left, top, ...css } = item?.css ?? {};
   return (
     <div className="ImageRender" style={css}>
-      <Image
-        alt={item.name}
-        src={item.data?.value ?? ""}
-        width={+(item.screenShot?.css.width + "").replace("px", "") ?? 80}
-        height={+(item.screenShot?.css.height + "").replace("px", "") ?? 80}
-      />
+      <Image alt={item.name ?? ""} src={item.data?.value ?? ""} fill={true} />
     </div>
   );
 };

@@ -11,7 +11,8 @@ import MoveableWrapper from "./MoveableWrapper";
 
 const ComponentPanel: FC = () => {
   const templateContext = useContext(TemplateContext);
-  const { template, setTemplate, setSelectElement } = templateContext ?? {};
+  const { template, selectElement, setTemplate, setSelectElement } =
+    templateContext ?? {};
   const [{ isOver, draggingColor, canDrop }, drop] = useDrop(() => ({
     accept: DragDropType,
     drop(_item: Data, monitor) {
@@ -63,13 +64,14 @@ const ComponentPanel: FC = () => {
         {template?.children?.map((component) => (
           <div
             data-id={component.id}
-            onClick={() => setSelectElement?.(component.id)}
+            onClick={() => {
+              setSelectElement?.(component.id);
+            }}
             key={component.id}
             style={{
               position: "absolute",
               display: "inline-block",
-              left: component?.css?.left ?? 0,
-              top: component?.css?.top ?? 0,
+              ...(component?.css ?? {}),
             }}
           >
             {component.data?.type === "text" && <TextRender item={component} />}
@@ -79,6 +81,7 @@ const ComponentPanel: FC = () => {
           </div>
         ))}
         <MoveableWrapper
+          template={template}
           boundsDom={
             document.querySelector(
               ".EditorCanvas"

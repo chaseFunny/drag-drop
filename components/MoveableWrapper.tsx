@@ -1,15 +1,16 @@
 "use client";
 import { Data } from "@/app/type";
 import { deepClone } from "@/lib/utils";
-import { type FC, memo, useContext, useEffect, useRef } from "react";
+import { type FC, useContext, useEffect, useRef } from "react";
 import Moveable from "react-moveable";
 import { TemplateContext } from "./ContextProvider/TemplateContext";
 
 const MoveableWrapper: FC<{
+  template: Data;
   boundsDom: React.ReactElement;
-}> = ({ boundsDom }) => {
+}> = ({ boundsDom, template }) => {
   const templateContext = useContext(TemplateContext);
-  const { template, selectElement, setTemplate, setSelectElement }: any =
+  const { selectElement, setTemplate, setSelectElement }: any =
     templateContext ?? {};
 
   const moveableRef = useRef<Moveable>(null);
@@ -30,7 +31,7 @@ const MoveableWrapper: FC<{
             ...item,
             ...data,
           };
-          console.log(i);
+          console.log(i, "iiii");
 
           setSelectElement?.(i.id);
           return i;
@@ -43,7 +44,8 @@ const MoveableWrapper: FC<{
   const selectElementData = template?.children?.filter(
     (ele: Data) => ele.id === selectElement
   )?.[0];
-  return selectElementData ? (
+
+  return selectElementData?.id && moveAreaRef.current?.clientWidth ? (
     <Moveable
       ref={moveableRef}
       // @ts-ignore
@@ -59,6 +61,8 @@ const MoveableWrapper: FC<{
         bottom: moveAreaRef.current?.clientHeight || 0,
       }}
       onDrag={({ target, left, top }) => {
+        console.log(target, left, top, "onDrag");
+
         updateItem(selectElementData?.id, {
           css: {
             ...selectElementData.css,
@@ -68,6 +72,8 @@ const MoveableWrapper: FC<{
         });
       }}
       onResize={({ target, width, height, delta, direction }) => {
+        console.log(target, width, height, delta, direction, "onResize");
+
         updateItem(selectElementData?.id, {
           css: {
             ...selectElementData.css,
@@ -94,4 +100,4 @@ const MoveableWrapper: FC<{
   ) : null;
 };
 
-export default memo(MoveableWrapper);
+export default MoveableWrapper;
