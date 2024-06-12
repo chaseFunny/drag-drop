@@ -1,5 +1,5 @@
 "use client";
-import { Data } from "@/app/type";
+
 import { type FC, memo } from "react";
 import { useDrag } from "react-dnd";
 

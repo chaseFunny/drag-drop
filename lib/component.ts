@@ -1,5 +1,3 @@
-import { Data } from "@/app/type";
-
 export const componentList: Data[] = [
   {
     id: "",

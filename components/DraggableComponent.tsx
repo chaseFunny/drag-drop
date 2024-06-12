@@ -1,6 +1,5 @@
 import { componentList } from "@/lib/component";
 import { genUniqueId } from "@/lib/utils";
-import Image from "next/image";
 import { type FC, memo } from "react";
 import DragWrapper from "./DragWrapper";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
@@ -16,7 +15,6 @@ const DraggableComponent: FC = () => {
       id: genUniqueId(),
     };
   });
-  console.log(renderList, "renderList");
 
   return (
     <div className="DraggableComponent flex flex-wrap  border-r-2 border-gray-300">
@@ -24,12 +22,14 @@ const DraggableComponent: FC = () => {
         <Tooltip key={ele.id}>
           <TooltipTrigger className=" w-1/2 p-2 flex justify-center items-center">
             <DragWrapper item={ele}>
-              <Image
+              <img
                 className="shadow-lg rounded"
                 alt={ele.name ?? ""}
                 src={"/screenShot/" + ele.screenShot?.src ?? ""}
-                width={+(ele.screenShot?.css.width + "").replace("px", "")}
-                height={+(ele.screenShot?.css.height + "").replace("px", "")}
+                style={{
+                  width: +(ele.screenShot?.css.width + "").replace("px", ""),
+                  height: +(ele.screenShot?.css.height + "").replace("px", ""),
+                }}
               />
             </DragWrapper>
           </TooltipTrigger>

@@ -1,17 +1,15 @@
 "use client";
-import { Data } from "@/app/type";
 import { deepClone } from "@/lib/utils";
 import { type FC, useContext, useEffect, useRef } from "react";
 import Moveable from "react-moveable";
 import { TemplateContext } from "./ContextProvider/TemplateContext";
 
 const MoveableWrapper: FC<{
-  template: Data;
   boundsDom: React.ReactElement;
-}> = ({ boundsDom, template }) => {
+}> = ({ boundsDom }) => {
   const templateContext = useContext(TemplateContext);
-  const { selectElement, setTemplate, setSelectElement }: any =
-    templateContext ?? {};
+  const { selectElement, setTemplate, template }: any = templateContext ?? {};
+  console.log(selectElement, boundsDom, "selectElement");
 
   const moveableRef = useRef<Moveable>(null);
   const moveAreaRef = useRef<any>(null);
@@ -29,11 +27,10 @@ const MoveableWrapper: FC<{
         if (item.id === id) {
           const i = {
             ...item,
-            ...data,
+            css: data?.css ?? item.css ?? {},
           };
           console.log(i, "iiii");
-
-          setSelectElement?.(i.id);
+          // setSelectElement?.(i.id);
           return i;
         }
         return item;
@@ -45,7 +42,7 @@ const MoveableWrapper: FC<{
     (ele: Data) => ele.id === selectElement
   )?.[0];
 
-  return selectElementData?.id && moveAreaRef.current?.clientWidth ? (
+  return selectElementData?.id ? (
     <Moveable
       ref={moveableRef}
       // @ts-ignore
@@ -61,19 +58,18 @@ const MoveableWrapper: FC<{
         bottom: moveAreaRef.current?.clientHeight || 0,
       }}
       onDrag={({ target, left, top }) => {
-        console.log(target, left, top, "onDrag");
-
         updateItem(selectElementData?.id, {
           css: {
             ...selectElementData.css,
-            x: left,
-            y: top,
+            left: left,
+            top: top,
           },
         });
       }}
       onResize={({ target, width, height, delta, direction }) => {
-        console.log(target, width, height, delta, direction, "onResize");
-
+        // 直接修改目标元素的样式
+        target.style.width = `${width}px`;
+        target.style.height = `${height}px`;
         updateItem(selectElementData?.id, {
           css: {
             ...selectElementData.css,

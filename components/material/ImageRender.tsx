@@ -1,5 +1,3 @@
-import { Data } from "@/app/type";
-import Image from "next/image";
 import { type FC, memo } from "react";
 
 const ImageRender: FC<{ item: Data }> = ({ item }) => {
@@ -7,7 +5,14 @@ const ImageRender: FC<{ item: Data }> = ({ item }) => {
   const { left, top, ...css } = item?.css ?? {};
   return (
     <div className="ImageRender" style={css}>
-      <Image alt={item.name ?? ""} src={item.data?.value ?? ""} fill={true} />
+      <img
+        alt={item.name ?? ""}
+        src={item.data?.value ?? ""}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      />
     </div>
   );
 };

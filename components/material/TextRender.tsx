@@ -1,4 +1,3 @@
-import { Data } from "@/app/type";
 import { type FC, memo } from "react";
 
 const TextRender: FC<{ item: Data }> = ({ item }) => {

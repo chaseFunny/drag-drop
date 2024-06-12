@@ -1,4 +1,3 @@
-import { Data } from "@/app/type";
 import { createContext } from "react";
 
 export interface TypeTemplateContext {

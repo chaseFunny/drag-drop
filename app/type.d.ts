@@ -1,5 +1,5 @@
 // 一份数据的格式
-export interface Data {
+interface Data {
   id?: string;
   name?: string;
   type?: "root" | "container" | "element"; // 类型：根容器 ｜ 容器 ｜ 元素
@@ -12,7 +12,7 @@ export interface Data {
   children?: Data[];
 }
 // 一个组件数据的配置
-export type CommonObj = Record<
+type CommonObj = Record<
   string,
   string | number | boolean | CommonObj | null | undefined
 >;
